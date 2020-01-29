@@ -5,7 +5,7 @@ You explore IBM Event Streams Administration REST API in this sesson.
 The Swagger 2.0 docs for the IBM Event Streams Administration REST API is found at https://raw.githubusercontent.com/ibm-messaging/event-streams-docs/master/admin-rest-api/admin-rest-api.yaml. You can load the file via URL import in the http://editor.swagger.io, click File > Import URL > OK. Or read the README for the Admin API at https://github.com/ibm-messaging/event-streams-docs/tree/master/admin-rest-api.
 
 
-## Retrieve property `kafka_admin_url`
+## Retrieve Property `kafka_admin_url`
 
 The property `apikey` and `kafka_admin_url` of the service credential of your Event Streams Service arew required to call the Kafka Admin API.
 
@@ -54,7 +54,7 @@ The property `apikey` and `kafka_admin_url` of the service credential of your Ev
 To authenticate, add the X-Auth-Token HTTP Header with the apikey found in the service credentials.
 
 
-## Using the Kafka Admin API
+## Call Kafka Admin API
 
 To call the Kafka Admin API, you need `kafka_admin_url` and the `apikey` from the `Service Credentials`. 
 
