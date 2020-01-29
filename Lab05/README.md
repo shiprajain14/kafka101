@@ -1,9 +1,12 @@
-# Lab05 - Using the Event Streams CLI Plugin
+# Kafka Lab 5 - Event Streams CLI
 
-* List the Event Streams CLI Plugin commands,
+Event Streams CLI commands is explored in this exercise.
+
+1. List the Event Streams CLI Plugin commands.
 
 	```console
 	$ ibmcloud es -h
+
 	NAME:
 	ibmcloud es - Plugin for IBM Event Streams (build 1908221834)
 
@@ -32,10 +35,11 @@
 
 	```
 
-* Create an instance of the IBM Event Streams service,
+1. Create an instance of the IBM Event Streams service.
 
 	```console
 	$ ibmcloud resource service-instance-create user1-eventstreams messagehub standard us-south
+
 	Creating service instance remkohdev-eventstreams in resource group default of account USER1's Account as user1@email.com...
 	OK
 	Service instance user1-eventstreams was created.
@@ -51,26 +55,29 @@
 	Updated at:   2019-10-17T15:04:16Z
 	```
 
-* Initialize the Event Streams CLI Plugin,
+1. Initialize the Event Streams CLI Plugin.
 
 	```console
 	$ ibmcloud es init
+
 	API Endpoint: 	https://123abc4d5efgh67i.svc01.us-south.eventstreams.cloud.ibm.com
 	OK
 	```
 
-* Create a new topic called `greetings`,
+1. Create a new topic called `greetings`.
 
 	```console
 	$ ibmcloud es topic-create greetings --partitions 1
+
 	Created topic greetings
 	OK
 	```
 
-* Display details of a topic called `greetings`,
+1. Display details of a topic.
 
 	```console
 	$ ibmcloud es topic greetings
+
 	Details for topic greetings
 	Topic name   Internal?   Partition count   Replication factor   
 	greetings    false       1                 3   
@@ -89,16 +96,17 @@
 	OK
 	```
  
-* Delete an existing topic called `greetings`,
+1. Delete an existing topic.
 
 	```console
 	$ ibmcloud es topic-delete greetings
+
 	Really delete topic 'greetings'? [y/N]> y
 	Topic greetings deleted successfully
 	OK
 	```
 
-* List all topics,
+1. List all topics.
 
 	```console
 	$ ibmcloud es topics
@@ -106,10 +114,11 @@
 	No topics found.
 	```
 
-* List all consumer groups,
+1. List all consumer groups.
 
 	```console
 	$ ibmcloud es groups
+	
 	OK
 	No consumer groups found.
 	```
