@@ -2,15 +2,21 @@
 
 See also https://ibm.github.io/event-streams/tutorials/kafka-streams-app/
 
-The Apache Kafka console tools ship with the Apache Kafka distribution and can be found in the bin directory of the Kafka download. If you have already downloaded Kafka, skip to the Lab section.
 
-The Source Download, e.g. version 2.3.0, has been already downloaded and installed into your working directory `/userdata`.
+## Configure the Apache Kafka CLI
 
-* Go to the Kafka distribution directory,
+The Apache Kafka console tools ship with the Apache Kafka distribution and can be found in the bin directory of the Kafka download. 
+
+> Note: If you have already downloaded Kafka, skip to the Lab section.
+
+1. Login to your web terminal.
+
+1. Go to the Kafka distribution directory. The Source Download, e.g. version 2.3.0, has been already downloaded and installed into your working directory `/userdata`.
 
 	```console
 	$ cd /userdata
 	$ ls -al 
+
 	total 16
 	drwxr-xr-x 1 root root 4096 Oct 29 19:43 .
 	drwxr-xr-x 1 root root 4096 Oct 29 22:12 ..
@@ -19,30 +25,25 @@ The Source Download, e.g. version 2.3.0, has been already downloaded and install
 	$ cd kafka_2.12-2.3.0
 	```
 
-* Find your service,
+1. Locate your Event Streams Service.
 
 	```console
 	$ ibmcloud resource service-instances | grep $ES_SVC_NAME
 	$ ibmcloud resource service-instance $ES_SVC_NAME
 	```
 	
-* Find your service credentials,
-
-	```console
-	$ ibmcloud resource service-keys | grep <usernumber>
-	```
-	
-* You will create a Kafka configuration file first. But we need the Kafka service credentials to set the Kafka configuration,
+1. Retrieve the service credential of your Event Streams Service. The command returns everything of the service credential of your Event Streams Service.
 
 	```shell
 	$ ibmcloud resource service-key "${ES_SVC_NAME}credentials1"
+
 	Retrieving service key account-eventstreams-user8888-credentials1 in resource group workshop-nov2019 under account Account as me@email.com...
                   
-Name:          account-eventstreams-user8888-credentials1   
-ID:            crn:v1:bluemix:public:messagehub:us-south:a/accf1c23dd456789befedcd0cda123e4:56ce78aa-d9a0-1c23-34ce-5a6cf7bd8d90:resource-key:1fe2ad34-5678-90fe-12d3-d4567d890c12   
-Created At:    Thu Oct 31 03:18:44 UTC 2019   
-State:         active   
-Credentials:                                   
+	Name:          account-eventstreams-user8888-credentials1   
+	ID:            crn:v1:bluemix:public:messagehub:us-south:a/accf1c23dd456789befedcd0cda123e4:56ce78aa-d9a0-1c23-34ce-5a6cf7bd8d90:resource-key:1fe2ad34-5678-90fe-12d3-d4567d890c12   
+	Created At:    Thu Oct 31 03:18:44 UTC 2019   
+	State:         active   
+	Credentials:                                   
                api_key:                  someapikey      
                apikey:                   someapikey      
                iam_apikey_description:   Auto-generated for key someapikey     
@@ -62,53 +63,76 @@ Credentials:
                user:                     token 
 	```
 
-* First thing, for later use, create an environment variable $KAFKA_BROKERS_SASL and set it to the complete Array value, including the square brackets and enclosed by double quotes, of the `kafka_brokers_sasl` property in the service credentials,
+	> Note: your service credential of your Event Streams Service is also available in IBM Cloud console.
+
+1. Extract the following information from the service credential of your Event Streams Service.
+	* `username` (always set to `token`)
+	* `password`
+	* `kafka_brokers_sasl` (everything within the `[ ..... ]`)
+
+1. Create environment variable `$KAFKA_BROKERS_SASL` and set it to the `kafka_brokers_sasl` property in the service credential of your Event Streams Service. This environment variable helps make it easy to refer to the `kafka_brokers_sasl` property as it's very long. 
+
+	> Note: Set the variable `$KAFKA_BROKERS_SASL` to the complete Array value of of the `kafka_brokers_sasl` property in the service credential, **excluding the square brackets** and enclosed by double quotes.
 
 	```shell
-	$ KAFKA_BROKERS_SASL="[broker-1-a1bc2d3efg4hijkl.kafka.svc01.us-south.eventstreams. cloud.ibm.com:9999,broker-2-a1bc2d3efg4hijkl.kafka.svc01.us-south.eventstreams.cloud.ibm.com:9999, broker-3-a1bc2d3efg4hijkl.kafka.svc01.us-south.eventstreams.cloud.ibm.com:9999, broker-4-a1bc2d3efg4hijkl.kafka.svc01.us-south.eventstreams.cloud.ibm.com:9999, broker-5-a1bc2d3efg4hijkl.kafka.svc01.us-south.eventstreams.cloud.ibm.com:9999, broker-6-a1bc2d3efg4hijkl.kafka.svc01.us-south.eventstreams.cloud.ibm.com:9999]"
+	$ export KAFKA_BROKERS_SASL="broker-1-a1bc2d3efg4hijkl.kafka.svc01.us-south.eventstreams. cloud.ibm.com:9999,broker-2-a1bc2d3efg4hijkl.kafka.svc01.us-south.eventstreams.cloud.ibm.com:9999,broker-3-a1bc2d3efg4hijkl.kafka.svc01.us-south.eventstreams.cloud.ibm.com:9999,broker-4-a1bc2d3efg4hijkl.kafka.svc01.us-south.eventstreams.cloud.ibm.com:9999,broker-5-a1bc2d3efg4hijkl.kafka.svc01.us-south.eventstreams.cloud.ibm.com:9999,broker-6-a1bc2d3efg4hijkl.kafka.svc01.us-south.eventstreams.cloud.ibm.com:9999"
 	```
 
-* Next, we need the `username` (always set to `token`) and `password` of your Kafka or Event Streams instance,
-* Look for the `password` value. You need to set the `password` property in the `mykafka.properties` file with this value,
-* Create a new properties file called 'mykafka.properties', 
+1. Create new Kafka configuration file `mykafka.properties`.
 
     ```console
     $ vi mykafka.properties
     ```
 
-* Press the 'i' key to enable INSERT mode,
-* Copy-paste the following properties, user 'token' for 'username' and for 'PASSWORD' use the 'password' value from the Event Streams service credentials,
+1. Press the 'i' key to enable INSERT mode.
 
-```text
-sasl.jaas.config=org.apache.kafka.common.security.plain.PlainLoginModule required username="token" password="PASSWORD";
-security.protocol=SASL_SSL
-sasl.mechanism=PLAIN
-ssl.protocol=TLSv1.2
-ssl.enabled.protocols=TLSv1.2
-ssl.endpoint.identification.algorithm=HTTPS
-```
+1. Copy and paste the following properties into the `mykafka.properties` file.
 
-* Press the ESC key to exit INSERT mode, and :wq to write and quit vi,
-* In your terminal you should still see the password value of the service credentials. Copy this value, and go back to the `vi` editor of the `mykafka.properties`,
+	```text
+	sasl.jaas.config=org.apache.kafka.common.security.plain.PlainLoginModule required username="token" password="PASSWORD";
+	security.protocol=SASL_SSL
+	sasl.mechanism=PLAIN
+	ssl.protocol=TLSv1.2
+	ssl.enabled.protocols=TLSv1.2
+	ssl.endpoint.identification.algorithm=HTTPS
+	```
 
-    ```console
-    $ vi mykafka.properties
-    ```
+1. Press the ESC key to exit INSERT mode.
 
-* Set the password property in the first line,
-* Press the ESC key to exit INSERT mode, and :wq to write and quit vi,
+1. Change `PASSWORD` to the password value extracted from the service credential of your Event Streams Service.
 
-Now you are ready to run the producer and publish messages to the Kafka messages stream:
-* First, run the producer, 
+1. Your `mykafka.properties` file should be similar to the sample file below.
+
+	```
+	sasl.jaas.config=org.apache.kafka.common.security.plain.PlainLoginModule required username="token" password="neOu63YFtp35vD0AKkrPKRpC284iriasYoKhWmamRj5e";
+	security.protocol=SASL_SSL
+	sasl.mechanism=PLAIN
+	ssl.protocol=TLSv1.2
+	ssl.enabled.protocols=TLSv1.2
+	ssl.endpoint.identification.algorithm=HTTPS
+	```
+
+1. Press the ESC key one more time.
+
+1. Type `:wq` to save the file and exit the `vi` editor.
+
+
+## Produce Messages
+
+Now you are ready to run the producer to publish messages to the Kafka messages stream.
+
+1. Start the producer.
 
 	```console
 	$ bash bin/kafka-console-producer.sh --broker-list $KAFKA_BROKERS_SASL 
 	--producer.config mykafka.properties --topic greetings
+
 	>
 	```
 
-* Note the prompt that should be displayed on the last line after the log output for loading the producer, once the consumer is running, you can enter messages to publish to the Kafka event stream that is consumed in real time,
-* Lets place messages on the event stream, by entering messages at the prompt. Hit ENTER to send and start a new message.
+1. Once the consumer is running, you can enter messages to publish to the Kafka event stream that will be consumed in real time. The prompt symbol is displayed on the last line when the producer is ready.
+
+1. Place messages on the event stream, by entering messages at the prompt. Hit ENTER to send the current message and start a new one.
 
 	```shell
 	> hello1
@@ -117,14 +141,18 @@ Now you are ready to run the producer and publish messages to the Kafka messages
 	> we could go on forever and ever and ever
 	```
 
-* Hit CTRL-C to stop the producer,
-* Next, run the consumer, for --broker-list use the kafka_brokers_sasl list from the Event Streams service credentials, as you did with the producer,
+1. Hit `CTRL-C` to stop the producer.
+
+
+## Consume Messages
+
+1. Start the consumer.
 
 	```console
 	$ bash bin/kafka-console-consumer.sh --bootstrap-server $KAFKA_BROKERS_SASL --consumer.config mykafka.properties --topic greetings --from-beginning
 	```
 
-* The consumer listener should retrieve the messages from the event stream with topic greetings, 
+1. The consumer listener retrieves the messages from the event stream of topic greetings, 
 
 	```console
 	hello1
@@ -132,60 +160,61 @@ Now you are ready to run the producer and publish messages to the Kafka messages
 	hello3
 	we could go on forever and ever and ever
 	```
-* Hit CTRL-C to stop the consumer,
+
+1. Hit `CTRL-C` to stop the consumer,
 
 
-## Consumer Groups
+## Consumer Group
 
-Consumers can be labeled with a consumer group name, so that each record published to a topic is delivered to one consumer instance within a subscribing consumer group,
+Consumers can be labeled with a consumer group name, so that each record published to a topic is delivered to one consumer instance within a subscribing consumer group.
 
-* Keep your current browser tab and terminal open, do not close it,
-* Echo the $KAFKA_BROKERS_SASL
+1. In the web terminal, execute
 
 	```shell
 	$ echo $KAFKA_BROKERS_SASL
-	[broker-1-a1bc2d3efg4hijkl.kafka.svc01.us-south.eventstreams. cloud.ibm.com:9999,broker-2-a1bc2d3efg4hijkl.kafka.svc01.us-south.eventstreams.cloud.ibm.com:9999, broker-3-a1bc2d3efg4hijkl.kafka.svc01.us-south.eventstreams.cloud.ibm.com:9999, broker-4-a1bc2d3efg4hijkl.kafka.svc01.us-south.eventstreams.cloud.ibm.com:9999, broker-5-a1bc2d3efg4hijkl.kafka.svc01.us-south.eventstreams.cloud.ibm.com:9999, broker-6-a1bc2d3efg4hijkl.kafka.svc01.us-south.eventstreams.cloud.ibm.com:9999]
+	
+	broker-1-a1bc2d3efg4hijkl.kafka.svc01.us-south.eventstreams. cloud.ibm.com:9999,broker-2-a1bc2d3efg4hijkl.kafka.svc01.us-south.eventstreams.cloud.ibm.com:9999, broker-3-a1bc2d3efg4hijkl.kafka.svc01.us-south.eventstreams.cloud.ibm.com:9999, broker-4-a1bc2d3efg4hijkl.kafka.svc01.us-south.eventstreams.cloud.ibm.com:9999, broker-5-a1bc2d3efg4hijkl.kafka.svc01.us-south.eventstreams.cloud.ibm.com:9999, broker-6-a1bc2d3efg4hijkl.kafka.svc01.us-south.eventstreams.cloud.ibm.com:9999
 	```
 
-* Copy the list to the clipboard,
-* Open 3 new browser tabs and run your terminal in each,
+1. Copy the output to the clipboard.
 
-* In the new terminals, you lost the context of your original terminal, so we need to set the $KAFKA_BROKERS_SASL variable again in all 3 new terminals,
-* In each new web-terminal,
+1. Open 3 new browser tabs and start new web terminal session in each tab.
+
+1. In each new terminal, you need to set the $KAFKA_BROKERS_SASL variable.
 
 	```shell
 	$ cd kafka_2.12-2.3.0
-	$ KAFKA_BROKERS_SASL="[broker-1-a1bc2d3efg4hijkl.kafka.svc01.us-south.eventstreams. cloud.ibm.com:9999,broker-2-a1bc2d3efg4hijkl.kafka.svc01.us-south.eventstreams.cloud.ibm.com:9999, broker-3-a1bc2d3efg4hijkl.kafka.svc01.us-south.eventstreams.cloud.ibm.com:9999, broker-4-a1bc2d3efg4hijkl.kafka.svc01.us-south.eventstreams.cloud.ibm.com:9999, broker-5-a1bc2d3efg4hijkl.kafka.svc01.us-south.eventstreams.cloud.ibm.com:9999, broker-6-a1bc2d3efg4hijkl.kafka.svc01.us-south.eventstreams.cloud.ibm.com:9999]"
+	$ KAFKA_BROKERS_SASL="broker-1-a1bc2d3efg4hijkl.kafka.svc01.us-south.eventstreams. cloud.ibm.com:9999,broker-2-a1bc2d3efg4hijkl.kafka.svc01.us-south.eventstreams.cloud.ibm.com:9999, broker-3-a1bc2d3efg4hijkl.kafka.svc01.us-south.eventstreams.cloud.ibm.com:9999, broker-4-a1bc2d3efg4hijkl.kafka.svc01.us-south.eventstreams.cloud.ibm.com:9999, broker-5-a1bc2d3efg4hijkl.kafka.svc01.us-south.eventstreams.cloud.ibm.com:9999, broker-6-a1bc2d3efg4hijkl.kafka.svc01.us-south.eventstreams.cloud.ibm.com:9999"
 	```
-* Note that if the container is restarted the Kafka properties file will have to be recreated, as we have not yet added Persistent Volumes. Check to make sure the kafka.properties file still exists.
-* In the first 2 new terminals, run a consumer instance that is a member of group 1, add a --group 1 flag to label a consumer,
+
+1. In the first 2 new terminals, start a consumer instance that is a member of group 1 by adding a `--group 1` flag to label a consumer.
 
 	```console
 	$ bash bin/kafka-console-consumer.sh --bootstrap-server $KAFKA_BROKERS_SASL --consumer.config mykafka.properties --topic greetings --group 1
 	```
 
-* In the last, third new terminal, run a consumer instance that is a member of group 2,
-* Add a --group 2 flag to label a consumer,
+1. In the third new terminal, start a consumer instance that is a member of group 2 by adding a `--group 2` flag to label a consumer.
 
 	```console
 	$ bash bin/kafka-console-consumer.sh --bootstrap-server $KAFKA_BROKERS_SASL --consumer.config mykafka.properties --topic greetings --group 2
 	```
 
-* Go back to the original terminal that is still open, 
-* Run the producer,
+1. Go back to the original terminal.
+
+1. Start the producer,
 
 	```shell
 	$ bash bin/kafka-console-producer.sh --broker-list $KAFKA_BROKERS_SASL --producer.config mykafka.properties --topic greetings
 	>
 	```
-* Publish a new message to the topic greetings,
+
+1. Publish a new message to the topic `greetings`.
 
 	```shell
 	> listen carefully, i will say this only once
 	```
 
-* Look at the 3 consumers in the 3 new web-terminal tabs,
-* You should see that only 1 consumer in group 1 and the single consumer in group 2, consume the message once per group,
+1. Check the 3 consumers in the 3 new web-terminal. Only 1 consumer in group 1 and the single consumer in group 2, consumed the message once per group.
 
 	```shell
 	listen carefully, i will say this only once
