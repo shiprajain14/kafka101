@@ -37,7 +37,7 @@ The Apache Kafka console tools ship with the Apache Kafka distribution and can b
 1. Retrieve the service credential of your Event Streams Service. The command returns everything of the service credential of your Event Streams Service.
 
 	```shell
-	$ ibmcloud resource service-key "${ES_SVC_NAME}credentials1"
+	$ ibmcloud resource service-key "${ES_SVC_NAME}-credentials1"
 
 	Retrieving service key account-eventstreams-user8888-credentials1 in resource group workshop-nov2019 under account Account as me@email.com...
                   
