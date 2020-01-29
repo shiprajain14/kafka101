@@ -154,12 +154,27 @@ To create a Spring application,
 
 	* For the original code example see the Spring Boot guide's an Even Quicker with Spring Boot example.
 
-1. Clean, Install and Run the application,
+
+## Complie and Run the Spring App
+
+To complie and run the application,
+
+1. Clean and Install the application.
 
 	```console
 	$ mvn clean install
+	```
+
+1. Run the application.
+
+	```console
 	$ mvn spring-boot:run
 	```
+
+
+## Verificaton
+
+To verify,
 
 1. Open a new web-terminal in a new browser tab.
 
@@ -177,5 +192,5 @@ To create a Spring application,
 	```
 	> Note: When you call the /received endpoint for the first time, it will retrieve ALL previous messages. For the subsequent calls, you only retrieve the new messages as the old messages were `cleaned` when the first call was made.
 
-1. You can repeat the /send and /received calls for additional verification.
+1. Repeat the /send and /received calls for additional verification.
 
