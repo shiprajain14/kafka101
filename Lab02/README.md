@@ -1,4 +1,4 @@
-# Produce and Consume Streams with Kafka CLI Tools
+# Kafka Lab 2 - Produce and Consume Streams with Kafka CLI Tools
 
 Apache Kafka CLI tool is explored in the session.
 
