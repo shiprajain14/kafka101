@@ -88,6 +88,8 @@ Before initializing the Event Streams plugin and connect to your Event Streams S
 
 ## Basic Event Streams CLI Commands
 
+You run couple of Kafka CLI commands in this section.
+
 1. List `topics`
 
 	```shell
@@ -131,6 +133,6 @@ Before initializing the Event Streams plugin and connect to your Event Streams S
 	OK
 	```
 
-For more information about using the Event Streams CLI Plugin, see [Lab05](../Lab05/README.md).
+For additional information of using the Event Streams CLI Plugin is available in s[Lab05](../Lab05/README.md).
 
 
