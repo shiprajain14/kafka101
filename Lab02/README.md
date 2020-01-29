@@ -1,6 +1,8 @@
 # Produce and Consume Streams with Kafka Console Tools
 
-See also https://ibm.github.io/event-streams/tutorials/kafka-streams-app/
+Apache Kafka CLI tool is explored in the session.
+
+Also see https://ibm.github.io/event-streams/tutorials/kafka-streams-app/
 
 
 ## Configure the Apache Kafka CLI
