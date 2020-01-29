@@ -7,7 +7,7 @@ The Swagger 2.0 docs for the IBM Event Streams Administration REST API is found 
 
 ## Retrieve property `kafka_admin_url`
 
-The property kafka_admin_url of the service credential of your Event Streams Service is required to access the Kafka Admin API.
+The property `apikey` and `kafka_admin_url` of the service credential of your Event Streams Service arew required to call the Kafka Admin API.
 
 1. Login to your web terminal.
 
