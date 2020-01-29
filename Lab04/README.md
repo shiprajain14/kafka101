@@ -1,4 +1,4 @@
-# Kafka Lab 4 - Using the Kafka Admin API
+# Kafka Lab 4 - Kafka Admin API
 
 You explore IBM Event Streams Administration REST API in this sesson.
 
