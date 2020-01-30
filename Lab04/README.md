@@ -7,7 +7,7 @@ The Swagger 2.0 docs for the IBM Event Streams Administration REST API is found 
 
 ## Retrieve Property `kafka_admin_url`
 
-The property `apikey` and `kafka_admin_url` of the service credential of your Event Streams Service arew required to call the Kafka Admin API.
+The property `apikey` and `kafka_admin_url` of the service credential of your Event Streams Service are required to call the Kafka Admin API.
 
 1. Login to your web terminal.
 
@@ -116,11 +116,23 @@ In the examples below, replace the placeholders for these properties with the va
 	$ curl -X GET https://<kafka_admin_url>/admin/topics/greetings -H 'X-Auth-Token: <apikey>'
 	```
 
+1. Create a new topic called `greetings` with 1 partition
+
+	```console
+	$ ibmcloud es topic-create greetings --partitions 2
+
+	Created topic greetings
+	OK
+	```
+
+	> Note: The above command fails if you run a Lite instance of `Event Streams` service. For a Lite instance of `Event Streams` service, the maximum number of partitions allowed is 1.
+
 1. Update a topic configuration,
 
 	```console
-	$ curl -X PATCH https://<kafka_admin_url>/admin/topics/greetings -H 'X-Auth-Token: <apikey>' -d '{"new_total_partition_count": 1 }'
+	$ curl -X PATCH https://<kafka_admin_url>/admin/topics/greetings -H 'X-Auth-Token: <apikey>' -d '{"new_total_partition_count": 2 }'
 	```
 
+	> Note: The above command fails if you run a Lite instance of `Event Streams` service. For a Lite instance of `Event Streams` service, the maximum number of partitions allowed is 1.
 
 
