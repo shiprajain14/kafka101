@@ -35,10 +35,10 @@ Event Streams CLI commands is explored in this exercise.
 
 	```
 
-1. Create an instance of the IBM Event Streams service.
+1. Create an instance of the IBM Event Streams service. Replace `<username>` with your username to make it unique.
 
 	```console
-	$ ibmcloud resource service-instance-create user1-eventstreams messagehub standard us-south
+	$ ibmcloud resource service-instance-create <username>-eventstreams messagehub standard us-south
 
 	Creating service instance remkohdev-eventstreams in resource group default of account USER1's Account as user1@email.com...
 	OK
@@ -64,10 +64,10 @@ Event Streams CLI commands is explored in this exercise.
 	OK
 	```
 
-1. Create a new topic called `greetings`.
+1. Create a new topic called `greetings2`.
 
 	```console
-	$ ibmcloud es topic-create greetings --partitions 1
+	$ ibmcloud es topic-create greetings2 --partitions 1
 
 	Created topic greetings
 	OK
@@ -76,7 +76,7 @@ Event Streams CLI commands is explored in this exercise.
 1. Display details of a topic.
 
 	```console
-	$ ibmcloud es topic greetings
+	$ ibmcloud es topic greetings2
 
 	Details for topic greetings
 	Topic name   Internal?   Partition count   Replication factor   
@@ -99,7 +99,7 @@ Event Streams CLI commands is explored in this exercise.
 1. Delete an existing topic.
 
 	```console
-	$ ibmcloud es topic-delete greetings
+	$ ibmcloud es topic-delete greetings2
 
 	Really delete topic 'greetings'? [y/N]> y
 	Topic greetings deleted successfully
