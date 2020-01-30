@@ -119,13 +119,11 @@ In the examples below, replace the placeholders for these properties with the va
 1. Create a new topic called `greetings` with 1 partition
 
 	```console
-	$ ibmcloud es topic-create greetings --partitions 2
+	$ ibmcloud es topic-create greetings --partitions 1
 
 	Created topic greetings
 	OK
 	```
-
-	> Note: The above command fails if you run a Lite instance of `Event Streams` service. For a Lite instance of `Event Streams` service, the maximum number of partitions allowed is 1.
 
 1. Update a topic configuration,
 
