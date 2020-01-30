@@ -1,6 +1,6 @@
-# Kafka Lab 3 - Produce and Consume Messages to/froms a Kafka Stream with Spring Boot
+# Kafka Lab 3 - Produce and Consume Messages to/from a Kafka Stream with Spring Boot Application
 
-The Spring Framework supports many dependencies. You will create a sample Spring Boot application to produce and consume Kafka Streams with the following dependencies:
+The Spring Framework supports many dependencies. In this lab, you create a sample Spring Boot application to produce and consume Kafka Streams with the following dependencies:
 
 * `web` to build web, including RESTful, applications using Spring MVC, uses Apache Tomcat as the default embedded container.
 * `data-rest` to expose Spring Data repositories over REST via Spring Data REST. 
@@ -30,6 +30,14 @@ To create a Spring application,
 
 	```shell
 	$ spring init --dependencies=web,data-rest,kafka,kafka-streams spring-boot-kafka-app
+
+	Using service at https://start.spring.io
+	Project extracted to '/userdata/spring-boot-kafka-app'
+	```
+
+1. Navigate to the Spring project folder.
+
+	```shell
 	$ cd spring-boot-kafka-app/
 	```
 
@@ -44,7 +52,7 @@ To create a Spring application,
 	* `password`
 	* `kafka_brokers_sasl` (everything within the `[ ..... ]`)
 
-1. Configure src/main/resources/application.properties file.
+1. Create src/main/resources/application.properties file.
 
 	* Open the file src/main/resources/application.properties in `vi` file editor.
 
@@ -85,9 +93,11 @@ To create a Spring application,
 		spring.kafka.consumer.value-deserializer=org.apache.kafka.common.serialization.StringDeserializer
 		```
 
-	* Replace <password> with the `password` property from the Event Streams credential.
+	* Press the ESC key to exit the INSERT mode.
+
+	* Replace `<password>` with the `password` property from the Event Streams credential.
 	
-	* Replace <brokerlist> with the `kafka_brokers_sasl` property from the Event Streams credentials, without **[ ]**, quotes and newlines.
+	* Replace `<brokerlist>` with the `kafka_brokers_sasl` property from the Event Streams credentials, **without [ ], quotes and newlines**.
 
 	* Press the ESC key to exit the INSERT mode.
 	
@@ -155,7 +165,7 @@ To create a Spring application,
 	* For the original code example see the Spring Boot guide's an Even Quicker with Spring Boot example.
 
 
-## Complie and Run the Spring App
+## Complie and Run the Spring Boot Application
 
 To complie and run the application,
 
@@ -190,7 +200,7 @@ To verify,
 	$ curl -X GET http://localhost:8080/received
 	[Hello1]
 	```
-	> Note: When you call the /received endpoint for the first time, it will retrieve ALL previous messages. For the subsequent calls, you only retrieve the new messages as the old messages were `cleaned` when the first call was made.
+	> Note: When you call the /received endpoint for the first time, it will retrieve ALL previous messages. For the subsequent calls, you only retrieve the new messages as the old messages were `cleaned up` when the first call was made.
 
 1. Repeat the /send and /received calls for additional verification.
 
