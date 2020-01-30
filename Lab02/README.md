@@ -60,6 +60,8 @@ Kafka CLI version 2.3.0 has been downloaded and installed in the web terminal en
 
 	> Note: your service credential of your Event Streams Service is also available in IBM Cloud console.
 
+1. Store the entire contents of the service credential of your Event Streams Service in a file as you need the information for a few times later.
+
 1. Extract the following information from the service credential of your Event Streams Service.
 	* `username` (always set to `token`)
 	* `password`
