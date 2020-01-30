@@ -11,9 +11,13 @@ In a non-workshop environment, you must create an instance of IBM Event Streams 
 
 If you already have installed the Event Streams plugin and are logged into IBM Cloud, jump to "Initialize the Event Streams Service".
 
+1. Login to your web terminal. Lab instructors should provide the access information.
+
+	> Note: if you are doing the lab in a non-workshop environment, you may perform the steps in a command window or terminal. Pre-requisite CLIs are required to be installed locally.
+
 1. Verify the Event Streams plugin
 
-	The IBM Cloud Developer Tools CLI and the plugin for Event Streams are pre-installed in your web-terminal environment. To verify, run the commmand below to list the installed plugins.
+	The IBM Cloud Developer Tools CLI and the plugin for `Event Streams` are pre-installed in your web-terminal environment. To verify, run the commmand below to list the installed plugins.
 
 	```
 	$ ibmcloud plugin list
@@ -28,6 +32,8 @@ If you already have installed the Event Streams plugin and are logged into IBM C
 	dev                                    2.4.0        
 	event-streams                          2.0.0
 	```
+
+	> Note: `event-streams` in the above sample output represents the the plugin for `Event Streams`.
 
 1. Install the Event Streams plugin
 
@@ -52,10 +58,6 @@ If you already have installed the Event Streams plugin and are logged into IBM C
 
 Before initializing the Event Streams plugin and connect to your Event Streams Service instance, you must be logged in to IBM Cloud.
 
-1. Login to your web terminal. Lab instructors should provide the access information.
-
-	> Note: if you are doing the lab in a non-workshop environment, you may perform the steps in a command window or terminal. Pre-requisite CLIs are required to be installed locally.
-
 1. Login to your IBM Cloud account. Enter your IBM Cloud account username and password when prompted.
 
     ```console
@@ -71,7 +73,7 @@ Before initializing the Event Streams plugin and connect to your Event Streams S
 1. Set the environmentvariable `ES_SVC_NAME` pointing to your Event Streams Service instance in IBM Cloud. The `Event Streams Service Name` should be provided by the instructors for this workshop. 
 
 	```shell
-	$ ES_SVC_NAME=<Event Streams Service Name>
+	$ export ES_SVC_NAME=<Event Streams Service Name>
 
 	$ echo $ES_SVC_NAME
 	```
@@ -133,6 +135,6 @@ You run couple of Kafka CLI commands in this section.
 	OK
 	```
 
-For additional information of using the Event Streams CLI Plugin is available in s[Lab05](../Lab05/README.md).
+Additional information of using the Event Streams CLI is available in [Lab05](../Lab05/README.md).
 
 
