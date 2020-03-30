@@ -1,4 +1,7 @@
-# Kafka Lab 1 - Setup
+#IBM cloud CLI https://cloud.ibm.com/docs/cli?topic=cloud-cli-install-ibmcloud-cli 
+
+
+#Kafka Lab 1 - Setup
 
 An instance of Apache Kafka in IBM Cloud is required during the lab. 
 
